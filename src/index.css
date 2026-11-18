@@ -1,0 +1,131 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  :root {
+    --bg-obsidian: #0F1218;
+    --bg-navy: #1E2332;
+    --surface-slate: #373E57;
+    --dusty-blue: #6F7398;
+    --lavender-highlight: #D1C7D7;
+    --text-primary: #F2F0F4;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: #0F1218;
+    color: #F2F0F4;
+  }
+
+  body {
+    background-color: #0F1218;
+    color: #F2F0F4;
+    overflow-x: hidden;
+  }
+}
+
+.font-serif-display {
+  font-family: 'Playfair Display', serif;
+}
+
+.font-cambria {
+  font-family: Cambria, Georgia, serif;
+}
+
+.font-arabic {
+  font-family: 'IBM Plex Sans Arabic', sans-serif;
+}
+
+/* Custom glowing and ambient lighting effects */
+.lavender-glow {
+  box-shadow: 0 0 60px -10px rgba(209, 199, 215, 0.15);
+}
+
+.lavender-border-glow {
+  box-shadow: 0 0 25px rgba(209, 199, 215, 0.25);
+}
+
+/* Hero name fade-in animation */
+@keyframes hero-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-hero-name {
+  animation: hero-fade-in 600ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Custom independent animations for portrait floating and rotating organic blob */
+@keyframes portrait-float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-3.5px);
+  }
+}
+
+@keyframes badge-float-1 {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-4px); }
+}
+
+@keyframes badge-float-2 {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(5px); }
+}
+
+@keyframes badge-float-3 {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+}
+
+.animate-portrait-float {
+  animation: portrait-float 8s ease-in-out infinite;
+}
+
+.animate-badge-1 {
+  animation: badge-float-1 6s ease-in-out infinite;
+}
+
+.animate-badge-2 {
+  animation: badge-float-2 7.5s ease-in-out infinite 1s;
+}
+
+.animate-badge-3 {
+  animation: badge-float-3 8.5s ease-in-out infinite 2s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-hero-name,
+  .animate-portrait-float,
+  .animate-badge-1,
+  .animate-badge-2,
+  .animate-badge-3,
+  [class*="animate-"] {
+    animation: none !important;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0F1218;
+}
+::-webkit-scrollbar-thumb {
+  background: #373E57;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #6F7398;
+}
