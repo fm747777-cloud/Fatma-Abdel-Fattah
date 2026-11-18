@@ -25,9 +25,18 @@ import {
   Send,
   MapPin
 } from 'lucide-react';
+import AboutSection from './components/AboutSection';
+import CoreStrengthsSection from './components/CoreStrengthsSection';
+import ProjectsSection from './components/ProjectsSection';
+import SkillsSection from './components/SkillsSection';
+import CertificationsSection from './components/CertificationsSection';
+import ExperienceSection from './components/ExperienceSection';
+import ContactSection from './components/ContactSection';
+import FloatingAIAssistant from './components/FloatingAIAssistant';
 
 export default function App() {
   const [lang, setLang] = useState<'EN' | 'AR'>('EN');
+  const [activeNav, setActiveNav] = useState<string>('about');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<any | null>(null);
   const [selectedCert, setSelectedCert] = useState<any | null>(null);
@@ -428,12 +437,31 @@ export default function App() {
 
           {/* Desktop Nav Links */}
           <nav className="hidden lg:flex items-center gap-8 text-sm font-medium text-[#6F7398]" aria-label="Main Navigation">
-            <a href="#about" className="hover:text-[#F2F0F4] transition-colors whitespace-nowrap shrink-0">{t.nav.about}</a>
-            <a href="#projects" className="hover:text-[#F2F0F4] transition-colors whitespace-nowrap shrink-0">{t.nav.projects}</a>
-            <a href="#skills" className="hover:text-[#F2F0F4] transition-colors whitespace-nowrap shrink-0">{t.nav.skills}</a>
-            <a href="#certifications" className="hover:text-[#F2F0F4] transition-colors whitespace-nowrap shrink-0">{t.nav.certifications}</a>
-            <a href="#experience" className="hover:text-[#F2F0F4] transition-colors whitespace-nowrap shrink-0">{t.nav.experience}</a>
-            <a href="#contact" className="hover:text-[#F2F0F4] transition-colors whitespace-nowrap shrink-0">{t.nav.contact}</a>
+            {[
+              { id: 'about', label: t.nav.about },
+              { id: 'projects', label: t.nav.projects },
+              { id: 'skills', label: t.nav.skills },
+              { id: 'certifications', label: t.nav.certifications },
+              { id: 'experience', label: t.nav.experience },
+              { id: 'contact', label: t.nav.contact },
+            ].map((item) => {
+              const isActive = activeNav === item.id;
+              return (
+                <a
+                  key={item.id}
+                  href={`#${item.id}`}
+                  onClick={() => setActiveNav(item.id)}
+                  className={`relative py-1.5 transition-colors whitespace-nowrap shrink-0 ${
+                    isActive ? 'text-[#F2F0F4] font-semibold' : 'text-[#6F7398] hover:text-[#F2F0F4]'
+                  }`}
+                >
+                  {item.label}
+                  {isActive && (
+                    <span className="absolute bottom-0 inset-x-0 h-[2px] rounded-full bg-[#D1C7D7]" />
+                  )}
+                </a>
+              );
+            })}
           </nav>
 
           {/* Right Action / Language Switch */}
@@ -488,431 +516,251 @@ export default function App() {
         )}
       </header>
 
-      {/* Hero Section with Cambria Bold Name & Rotating Organic Oval */}
-      <section className="relative pt-20 pb-28 px-6 overflow-hidden">
-        {/* Background ambient lighting */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-gradient-to-tr from-[#1E2332]/40 via-[#373E57]/20 to-transparent rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute top-1/3 right-10 w-[400px] h-[400px] bg-[#6F7398]/10 rounded-full blur-3xl pointer-events-none" />
+      {/* Hero Section — Refined Cambria Bold Name, Soft Lavender Ambient Glow & Layered Slate Indigo Portrait */}
+      <section className="relative pt-16 sm:pt-20 lg:pt-24 pb-24 sm:pb-28 px-5 sm:px-6 lg:px-8 overflow-hidden">
+        {/* Background ambient lighting (decorative only) */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute top-1/4 left-1/3 -translate-x-1/2 w-[640px] h-[640px] rounded-full blur-3xl opacity-35"
+          style={{
+            background:
+              'radial-gradient(circle, rgba(55, 62, 87, 0.35) 0%, rgba(30, 35, 50, 0.18) 55%, transparent 75%)',
+          }}
+        />
 
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
+        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-10 xl:gap-14 relative z-10">
           
-          {/* Left Column: Heading & CTAs */}
-          <div className="lg:col-span-7 flex flex-col gap-6">
+          {/* Left Column (~55% on desktop): Availability, Name, Role, Tagline, CTAs, Statistics */}
+          <div className="w-full lg:w-[55%] flex flex-col items-start text-start">
             
             {/* Availability Badge */}
-            <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-[#1E2332] border border-[#373E57] text-xs font-semibold tracking-wider text-[#D1C7D7] w-fit shadow-sm">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#1E2332]/90 border border-[#373E57] text-[11px] sm:text-xs font-semibold tracking-[0.08em] text-[#D1C7D7] w-fit shadow-sm mb-6">
+              <span className="w-2 h-2 rounded-full bg-[#D1C7D7] shadow-[0_0_8px_rgba(209,199,215,0.75)] animate-pulse" />
               <span>{t.availableBadge}</span>
             </div>
 
-            {/* Large Heading: Cambria Bold Single Line */}
-            <h1 className="font-cambria font-bold text-[#F2F0F4] tracking-[-0.02em] leading-[1.12] text-[clamp(44px,5.8vw,88px)] whitespace-nowrap">
-              {lang === 'EN' ? 'Fatma Abdel Fattah' : 'فاطمة عبد الفتاح'}
-            </h1>
+            {/* Name Wrapper with Subtle Soft Lavender Ambient Glow BEHIND the Text */}
+            <div className="relative w-full mb-4">
+              {/* Diffused Low-Opacity (8–12%) Lavender & Dusty Indigo Glow Behind Heading */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none select-none absolute -inset-x-8 -inset-y-6 rounded-full blur-[68px]"
+                style={{
+                  background:
+                    'radial-gradient(ellipse at 38% 50%, rgba(209, 199, 215, 0.11) 0%, rgba(111, 115, 152, 0.07) 48%, rgba(15, 18, 24, 0) 78%)',
+                }}
+              />
 
-            {/* Role & Statement */}
-            <div className="space-y-3">
-              <p className="text-lg sm:text-xl font-semibold text-[#D1C7D7] tracking-wide">
-                {lang === 'EN' ? 'Data Analyst | Applied Artificial Intelligence' : 'محللة بيانات | الذكاء الاصطناعي التطبيقي'}
+              {/* Full Name: Single Consistent Off White Color (#F2F0F4), Cambria Bold, ~64px Desktop */}
+              <h1
+                className={`relative z-10 font-bold text-[#F2F0F4] tracking-[-0.025em] leading-[1.1] text-[clamp(33px,4.4vw,64px)] xl:whitespace-nowrap ${
+                  lang === 'EN' ? 'font-cambria' : 'font-arabic'
+                }`}
+              >
+                {lang === 'EN' ? 'Fatma Abdel Fattah' : 'فاطمة عبد الفتاح'}
+              </h1>
+            </div>
+
+            {/* Professional Title & Tagline */}
+            <div className="space-y-3.5 mb-8 max-w-2xl">
+              {/* Role Title: "Data Analyst |" in Off White #F2F0F4, "Applied Artificial Intelligence" in Soft Lavender #D1C7D7 */}
+              <p
+                className={`text-[16.5px] sm:text-[19px] lg:text-[21px] font-medium tracking-[0.01em] leading-snug ${
+                  lang === 'EN' ? 'font-manrope' : 'font-arabic'
+                }`}
+              >
+                {lang === 'EN' ? (
+                  <>
+                    <span className="text-[#F2F0F4]">Data Analyst</span>
+                    <span className="text-[#F2F0F4]/65 mx-2">|</span>
+                    <span className="text-[#D1C7D7]">Applied Artificial Intelligence</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="text-[#F2F0F4]">محللة بيانات</span>
+                    <span className="text-[#F2F0F4]/65 mx-2">|</span>
+                    <span className="text-[#D1C7D7]">الذكاء الاصطناعي التطبيقي</span>
+                  </>
+                )}
               </p>
-              <p className="text-2xl sm:text-[24px] italic font-serif-display text-[#C9C4D2]">
-                "{lang === 'EN' ? 'The Most Interesting Insights Are Hidden in Plain Sight.' : 'أغلب الرؤى المثيرة تختفي في أبسط التفاصيل.'}"
+
+              {/* Tagline: Elegant Italic Serif in Cool Silver / Off White */}
+              <p
+                className={`text-[18px] sm:text-[21px] lg:text-[23px] font-normal italic text-[#CDD0D9] leading-relaxed pt-0.5 ${
+                  lang === 'EN'
+                    ? 'font-instrument-serif tracking-[0.01em]'
+                    : 'font-arabic'
+                }`}
+              >
+                &ldquo;
+                {lang === 'EN'
+                  ? 'The Most Interesting Insights Are Hidden in Plain Sight.'
+                  : 'أغلب الرؤى المثيرة تختفي في أبسط التفاصيل.'}
+                &rdquo;
               </p>
             </div>
 
-            {/* Action Buttons */}
-            <div className="flex flex-wrap items-center gap-4 pt-2">
+            {/* Hero Action Buttons */}
+            <div className="flex flex-wrap items-center gap-3.5 sm:gap-4">
+              {/* Primary Soft Lavender Filled Button */}
               <a
                 href="#projects"
-                className="px-7 py-4 rounded-xl bg-[#D1C7D7] hover:bg-white text-[#0F1218] font-semibold text-sm transition-all shadow-xl shadow-[#D1C7D7]/15 flex items-center gap-2 transform hover:-translate-y-0.5"
+                className="px-6 sm:px-7 py-3.5 sm:py-4 rounded-xl bg-[#D1C7D7] hover:bg-[#F2F0F4] text-[#0F1218] font-semibold text-sm transition-all duration-200 shadow-[0_8px_24px_rgba(209,199,215,0.16)] flex items-center gap-2 hover:-translate-y-0.5"
               >
                 <span>{t.viewProjects}</span>
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className={`w-4 h-4 ${lang === 'AR' ? 'rotate-180' : ''}`} />
               </a>
+
+              {/* Dark Outlined Contact Me Button */}
               <a
                 href="#contact"
-                className="px-7 py-4 rounded-xl bg-[#1E2332] hover:bg-[#373E57] text-[#F2F0F4] border border-[#373E57] font-semibold text-sm transition-all flex items-center gap-2 shadow-sm"
+                className="px-6 sm:px-7 py-3.5 sm:py-4 rounded-xl bg-[#1E2332]/90 hover:bg-[#373E57]/75 text-[#F2F0F4] border border-[#373E57] hover:border-[#6F7398] font-semibold text-sm transition-all duration-200 flex items-center gap-2 shadow-sm"
               >
                 <span>{t.contactMe}</span>
                 <Mail className="w-4 h-4 text-[#D1C7D7]" />
               </a>
+
+              {/* Compact CV Download Button */}
               <a
-                href="#cv"
-                onClick={(e) => { e.preventDefault(); alert("CV download initiated (PDF format)."); }}
-                className="px-5 py-4 rounded-xl bg-transparent hover:bg-[#1E2332]/50 text-[#D1C7D7] border border-[#373E57]/60 font-semibold text-sm transition-all flex items-center gap-2"
+                href="/Fatma_Abdel_Fattah_CV.pdf"
+                download="Fatma_Abdel_Fattah_CV.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-5 py-3.5 sm:py-4 rounded-xl bg-transparent hover:bg-[#1E2332]/65 text-[#D1C7D7] hover:text-[#F2F0F4] border border-[#373E57]/75 hover:border-[#6F7398] font-semibold text-sm transition-all duration-200 flex items-center gap-2"
               >
-                <Download className="w-4 h-4" />
+                <Download className="w-4 h-4 text-[#D1C7D7]" />
                 <span>{t.cv}</span>
               </a>
             </div>
 
-            {/* Counters Strip */}
-            <div className="grid grid-cols-3 gap-6 pt-8 border-t border-[#373E57]/40 mt-4 max-w-lg">
+            {/* Hero Statistics Strip with Clean Vertical Dividers */}
+            <div className="grid grid-cols-3 items-center gap-4 sm:gap-8 pt-7 mt-9 border-t border-[#373E57]/45 w-full max-w-lg">
               <div>
-                <p className="text-3xl font-serif-display font-bold text-[#F2F0F4]">15+</p>
-                <p className="text-xs text-[#6F7398] mt-1 font-medium">{t.stats.projects}</p>
+                <p className="text-2xl sm:text-[30px] font-cambria font-bold text-[#F2F0F4] leading-tight tabular-nums">
+                  15+
+                </p>
+                <p className="text-[11.5px] sm:text-xs text-[#CDD0D9] mt-1 font-medium">
+                  {t.stats.projects}
+                </p>
               </div>
-              <div>
-                <p className="text-3xl font-serif-display font-bold text-[#F2F0F4]">2+ Yrs</p>
-                <p className="text-xs text-[#6F7398] mt-1 font-medium">{t.stats.experience}</p>
+
+              <div className="border-s border-[#373E57]/55 ps-4 sm:ps-7">
+                <p className="text-2xl sm:text-[30px] font-cambria font-bold text-[#F2F0F4] leading-tight tabular-nums">
+                  2+ Yrs
+                </p>
+                <p className="text-[11.5px] sm:text-xs text-[#CDD0D9] mt-1 font-medium">
+                  {t.stats.experience}
+                </p>
               </div>
-              <div>
-                <p className="text-3xl font-serif-display font-bold text-[#F2F0F4]">8+</p>
-                <p className="text-xs text-[#6F7398] mt-1 font-medium">{t.stats.certificates}</p>
+
+              <div className="border-s border-[#373E57]/55 ps-4 sm:ps-7">
+                <p className="text-2xl sm:text-[30px] font-cambria font-bold text-[#F2F0F4] leading-tight tabular-nums">
+                  8+
+                </p>
+                <p className="text-[11.5px] sm:text-xs text-[#CDD0D9] mt-1 font-medium">
+                  {t.stats.certificates}
+                </p>
               </div>
             </div>
 
           </div>
 
-          {/* Right Column: Rotating Organic Oval Composition with Subtle Portrait Floating Animation */}
-          <div className="lg:col-span-5 relative flex items-center justify-center py-8">
+          {/* Right Column (~45% on desktop): Portrait, Layered Slate Indigo & Midnight Navy Organic Frame, Soft Lavender Halo, Floating Tech Badges */}
+          <div className="w-full lg:w-[45%] relative flex items-center justify-center py-6 sm:py-8 group/portrait">
             
-            {/* Layer 1: Static ambient background and soft lavender halo */}
-            <div className="absolute w-[380px] h-[480px] sm:w-[460px] sm:h-[580px] rounded-[50%] bg-[#D1C7D7]/15 blur-3xl pointer-events-none" />
+            {/* Layer 1: Subtle Background Gradient Connecting Portrait to Hero */}
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute w-[320px] h-[400px] sm:w-[430px] sm:h-[520px] rounded-full blur-[80px] opacity-75 transition-opacity duration-700 group-hover/portrait:opacity-100"
+              style={{
+                background:
+                  'radial-gradient(ellipse at 50% 46%, rgba(209, 199, 215, 0.14) 0%, rgba(55, 62, 87, 0.28) 48%, rgba(15, 18, 24, 0) 78%)',
+              }}
+            />
 
-            {/* Layer 2: Rotating organic oval/blob with subtle illuminated edges */}
-            <div className="absolute w-[370px] h-[470px] sm:w-[450px] sm:h-[570px] rounded-[60%_40%_70%_30%/40%_60%_30%_70%] bg-gradient-to-tr from-[#1E2332] via-[#373E57] to-[#1E2332] animate-[spin_30s_linear_infinite] pointer-events-none border border-[#D1C7D7]/40 shadow-2xl opacity-90" />
+            {/* Layer 2: Soft Lavender Outer Silhouette Halo (Gentle Increase on Hover) */}
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute w-[295px] h-[385px] sm:w-[395px] sm:h-[500px] rounded-[58%_42%_65%_35%/44%_58%_42%_56%] blur-2xl opacity-55 transition-opacity duration-700 group-hover/portrait:opacity-85"
+              style={{
+                background:
+                  'radial-gradient(circle at 65% 32%, rgba(209, 199, 215, 0.22) 0%, rgba(111, 115, 152, 0.14) 45%, transparent 74%)',
+              }}
+            />
 
-            {/* Layer 3: Secondary overlapping organic shape for depth */}
-            <div className="absolute w-[340px] h-[440px] sm:w-[410px] sm:h-[520px] rounded-[30%_70%_40%_60%/60%_30%_70%_40%] bg-gradient-to-br from-[#373E57]/60 via-[#1E2332] to-[#0F1218] animate-[spin_40s_linear_infinite_reverse] pointer-events-none opacity-80 filter blur-[1px]" />
+            {/* Layer 3: Deep Midnight Navy (#1E2332) Depth Shape (Slow Ambient Counter-Rotation) */}
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute w-[285px] h-[375px] sm:w-[385px] sm:h-[490px] rounded-[36%_64%_44%_56%/58%_36%_64%_42%] animate-[spin_34s_linear_infinite_reverse] opacity-90"
+              style={{
+                background:
+                  'linear-gradient(145deg, rgba(30, 35, 50, 0.95) 0%, rgba(55, 62, 87, 0.45) 55%, rgba(15, 18, 24, 0.92) 100%)',
+                border: '1px solid rgba(111, 115, 152, 0.22)',
+                boxShadow: '0 24px 55px rgba(0, 0, 0, 0.65)',
+              }}
+            />
 
-            {/* Layer 4: Stationary portrait image with subtle independent 3-4px floating animation */}
-            <div className="relative w-[320px] h-[420px] sm:w-[400px] sm:h-[520px] flex items-center justify-center animate-portrait-float z-10">
+            {/* Layer 4: Main Organic Oval Surface in Slate Indigo (#373E57) & Midnight Navy (#1E2332) with Partially Illuminated Soft Lavender Edge */}
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute w-[290px] h-[380px] sm:w-[390px] sm:h-[500px] rounded-[60%_40%_68%_32%/42%_60%_34%_66%] animate-[spin_26s_linear_infinite] transition-all duration-700"
+              style={{
+                background:
+                  'linear-gradient(160deg, rgba(55, 62, 87, 0.86) 0%, rgba(30, 35, 50, 0.94) 54%, rgba(20, 24, 36, 0.98) 100%)',
+                border: '1px solid rgba(209, 199, 215, 0.28)',
+                boxShadow:
+                  'inset 0 1px 18px rgba(209, 199, 215, 0.14), 0 0 28px rgba(209, 199, 215, 0.10)',
+              }}
+            />
+
+            {/* Layer 5: Original Unchanged Portrait Image (Visually Stable, Gentle Vertical Float Only) */}
+            <div className="relative w-[270px] h-[360px] sm:w-[365px] sm:h-[475px] flex items-center justify-center animate-portrait-float z-10">
               <img
                 src="/src/assets/images/fatma_real_portrait.png"
-                alt="Fatma Abdel Fattah — Junior Data Analyst & AI Specialist"
-                className="w-full h-full object-cover object-top filter drop-shadow-[0_20px_30px_rgba(0,0,0,0.6)]"
+                alt="Fatma Abdel Fattah — Data Analyst & Applied Artificial Intelligence"
+                className="w-full h-full object-cover object-top filter drop-shadow-[0_20px_32px_rgba(0,0,0,0.68)] select-none"
                 referrerPolicy="no-referrer"
                 fetchPriority="high"
               />
             </div>
 
-            {/* Layer 5: Stationary or very gently floating technology badges */}
-            <div className="absolute top-4 left-0 sm:left-2 px-4 py-2 rounded-full bg-[#1E2332]/95 border border-[#373E57] text-xs font-semibold text-[#F2F0F4] shadow-xl backdrop-blur-md animate-badge-1 flex items-center gap-1.5 z-20">
-              <span className="text-[#D1C7D7]">⚡</span> {t.techBadges[0]}
-            </div>
-            <div className="absolute top-20 -right-2 px-4 py-2 rounded-full bg-[#1E2332]/95 border border-[#373E57] text-xs font-semibold text-[#F2F0F4] shadow-xl backdrop-blur-md animate-badge-2 flex items-center gap-1.5 z-20">
-              <span className="text-[#D1C7D7]">📊</span> {t.techBadges[1]}
-            </div>
-            <div className="absolute bottom-20 -left-2 px-4 py-2 rounded-full bg-[#1E2332]/95 border border-[#373E57] text-xs font-semibold text-[#F2F0F4] shadow-xl backdrop-blur-md animate-badge-2 flex items-center gap-1.5 z-20">
-              <span className="text-[#D1C7D7]">🤖</span> {t.techBadges[2]}
-            </div>
-            <div className="absolute bottom-4 right-2 sm:right-4 px-4 py-2 rounded-full bg-[#1E2332]/95 border border-[#373E57] text-xs font-semibold text-[#F2F0F4] shadow-xl backdrop-blur-md animate-badge-1 flex items-center gap-1.5 z-20">
-              <span className="text-[#D1C7D7]">🐍</span> {t.techBadges[3]}
-            </div>
-            <div className="absolute top-1/2 -right-4 px-4 py-2 rounded-full bg-[#1E2332]/95 border border-[#373E57] text-xs font-semibold text-[#F2F0F4] shadow-xl backdrop-blur-md animate-badge-1 flex items-center gap-1.5 z-20">
-              <span className="text-[#D1C7D7]">🗄️</span> {t.techBadges[4]}
+            {/* Layer 6: Floating Glassmorphic Technology Badges Around Perimeter (Never Covering Face) */}
+            {/* 1. Power BI — Top Left */}
+            <div className="absolute top-3 left-1 sm:top-5 sm:left-0 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full bg-[#1E2332]/90 border border-[#373E57] hover:border-[#D1C7D7]/55 text-[11px] sm:text-xs font-semibold text-[#F2F0F4] shadow-[0_8px_20px_rgba(0,0,0,0.45)] backdrop-blur-md animate-badge-1 flex items-center gap-2 z-20 transition-colors duration-200">
+              <BarChart3 className="w-3.5 h-3.5 text-[#D1C7D7] shrink-0" aria-hidden="true" />
+              <span>{t.techBadges[0]}</span>
             </div>
 
-          </div>
-
-        </div>
-      </section>
-
-      {/* About Me Section — Refined Two-Column Editorial Layout */}
-      <section id="about" className="py-28 px-6 bg-[#1E2332]/40 border-t border-b border-[#373E57]/30 relative">
-        <div className="max-w-7xl mx-auto">
-          
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-            
-            {/* Left Column (42% approx -> lg:col-span-5): Small Label & Editorial Headline */}
-            <div className="lg:col-span-5 space-y-6 lg:sticky lg:top-28">
-              <span className="text-xs font-bold tracking-widest text-[#D1C7D7] uppercase block">
-                {t.aboutSubtitle}
-              </span>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif-display font-bold text-[#F2F0F4] leading-[1.15]">
-                {t.aboutHeadlinePre}
-                <span className="text-[#D1C7D7] italic">{t.aboutHeadlineHighlight}</span>
-              </h2>
-            </div>
-
-            {/* Right Column (58% approx -> lg:col-span-7): Four Biography Paragraphs */}
-            <div className="lg:col-span-7 space-y-6 text-[#6F7398] text-base sm:text-lg leading-relaxed font-normal">
-              <p className="text-[#F2F0F4] font-medium leading-relaxed">
-                {t.aboutParagraphs[0]}
-              </p>
-              <p className="leading-relaxed">
-                {t.aboutParagraphs[1]}
-              </p>
-              <p className="leading-relaxed">
-                {t.aboutParagraphs[2]}
-              </p>
-              <p className="leading-relaxed">
-                {t.aboutParagraphs[3]}
-              </p>
-            </div>
-
-          </div>
-
-        </div>
-      </section>
-
-      {/* Key Strengths Section */}
-      <section className="py-28 px-6">
-        <div className="max-w-7xl mx-auto">
-          
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="text-3xl sm:text-4xl font-serif-display font-bold text-[#F2F0F4]">
-              {t.strengthsTitle}
-            </h2>
-            <p className="text-sm text-[#6F7398] mt-3">The foundational principles guiding every analysis and model I build.</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {t.strengths.map((strength, idx) => (
-              <div key={idx} className="p-8 rounded-2xl bg-[#1E2332]/60 border border-[#373E57] hover:border-[#6F7398] transition-all flex flex-col justify-between group shadow-lg">
-                <div>
-                  <div className="w-12 h-12 rounded-xl bg-[#373E57]/50 border border-[#6F7398]/30 flex items-center justify-center text-[#D1C7D7] mb-6 group-hover:scale-105 transition-transform">
-                    <span className="font-serif-display font-bold text-lg">0{idx + 1}</span>
-                  </div>
-                  <h3 className="text-xl font-semibold text-[#F2F0F4] mb-3">{strength.title}</h3>
-                  <p className="text-sm text-[#6F7398] leading-relaxed">{strength.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-
-        </div>
-      </section>
-
-      {/* Featured Projects Section */}
-      <section id="projects" className="py-28 px-6 bg-[#1E2332]/40 border-t border-b border-[#373E57]/30">
-        <div className="max-w-7xl mx-auto">
-          
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
-            <div>
-              <span className="text-xs font-bold tracking-widest text-[#D1C7D7] uppercase">Portfolio</span>
-              <h2 className="text-3xl sm:text-5xl font-serif-display font-bold text-[#F2F0F4] mt-3">
-                {t.projectsTitle}
-              </h2>
-            </div>
-            <p className="text-sm text-[#6F7398] max-w-md">
-              {t.projectsSubtitle}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {t.projects.map((project) => (
-              <div
-                key={project.id}
-                className="rounded-2xl bg-[#1E2332] border border-[#373E57] overflow-hidden hover:border-[#6F7398] transition-all flex flex-col group cursor-pointer shadow-xl"
-                onClick={() => setSelectedProject(project)}
+            {/* 2. Excel — Top Right */}
+            <div className="absolute top-14 right-0 sm:top-16 sm:-right-1 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full bg-[#1E2332]/90 border border-[#373E57] hover:border-[#D1C7D7]/55 text-[11px] sm:text-xs font-semibold text-[#F2F0F4] shadow-[0_8px_20px_rgba(0,0,0,0.45)] backdrop-blur-md animate-badge-2 flex items-center gap-2 z-20 transition-colors duration-200">
+              <svg
+                viewBox="0 0 16 16"
+                fill="none"
+                className="w-3.5 h-3.5 text-[#D1C7D7] shrink-0"
+                aria-hidden="true"
               >
-                {/* Project Image Preview */}
-                <div className="relative aspect-video overflow-hidden bg-[#0F1218]">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    referrerPolicy="no-referrer"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#1E2332] via-transparent to-transparent opacity-80" />
-                  <span className="absolute top-4 left-4 px-3 py-1 rounded-full bg-[#0F1218]/80 backdrop-blur-md border border-[#373E57] text-xs font-medium text-[#D1C7D7]">
-                    {project.category}
-                  </span>
-                </div>
-
-                {/* Project Content */}
-                <div className="p-7 flex-1 flex flex-col justify-between">
-                  <div>
-                    <h3 className="text-xl font-semibold text-[#F2F0F4] mb-2 group-hover:text-[#D1C7D7] transition-colors">
-                      {project.title}
-                    </h3>
-                    <p className="text-sm text-[#6F7398] line-clamp-2 mb-4 leading-relaxed">
-                      {project.desc}
-                    </p>
-                  </div>
-
-                  <div>
-                    {/* Metrics Banner */}
-                    <p className="text-xs font-semibold text-[#D1C7D7] mb-4 bg-[#0F1218]/60 px-3 py-2 rounded-xl border border-[#373E57]/50 w-fit">
-                      {project.metrics}
-                    </p>
-
-                    {/* Tech Badges */}
-                    <div className="flex flex-wrap gap-2 pt-4 border-t border-[#373E57]/40">
-                      {project.tech.map((tItem, i) => (
-                        <span key={i} className="text-xs px-3 py-1 rounded-lg bg-[#373E57]/40 text-[#F2F0F4] font-medium">
-                          {tItem}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-        </div>
-      </section>
-
-      {/* Skills & Technical Stack Section */}
-      <section id="skills" className="py-28 px-6">
-        <div className="max-w-7xl mx-auto">
-          
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-xs font-bold tracking-widest text-[#D1C7D7] uppercase">Expertise</span>
-            <h2 className="text-3xl sm:text-5xl font-serif-display font-bold text-[#F2F0F4] mt-3">
-              {t.skillsTitle}
-            </h2>
-            <p className="text-sm text-[#6F7398] mt-3">{t.skillsSubtitle}</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {t.skillCategories.map((cat, idx) => (
-              <div key={idx} className="p-7 rounded-2xl bg-[#1E2332]/60 border border-[#373E57] hover:border-[#6F7398] transition-all shadow-lg">
-                <div className="w-12 h-12 rounded-xl bg-[#373E57]/50 border border-[#6F7398]/30 flex items-center justify-center text-[#D1C7D7] mb-5">
-                  {idx === 0 && <BarChart3 className="w-6 h-6" />}
-                  {idx === 1 && <Code className="w-6 h-6" />}
-                  {idx === 2 && <Database className="w-6 h-6" />}
-                  {idx === 3 && <Cpu className="w-6 h-6" />}
-                </div>
-                <h3 className="text-lg font-semibold text-[#F2F0F4] mb-4">{cat.category}</h3>
-                <ul className="space-y-3">
-                  {cat.skills.map((skill, sIdx) => (
-                    <li key={sIdx} className="flex items-center gap-2.5 text-sm text-[#6F7398]">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#D1C7D7]" />
-                      <span className="font-medium">{skill}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-
-        </div>
-      </section>
-
-      {/* Featured Certification Section */}
-      <section className="py-16 px-6 bg-[#1E2332]/30 border-t border-b border-[#373E57]/30">
-        <div className="max-w-7xl mx-auto">
-          <div className="p-8 sm:p-12 rounded-3xl bg-[#1E2332] border border-[#373E57] grid grid-cols-1 lg:grid-cols-12 gap-8 items-center shadow-2xl">
-            <div className="lg:col-span-8 space-y-4">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0F1218] border border-[#373E57] text-xs font-semibold text-[#D1C7D7]">
-                <Award className="w-4 h-4 text-[#D1C7D7]" />
-                <span>{t.featuredCertTitle}</span>
-              </div>
-              <h3 className="text-2xl sm:text-3xl font-serif-display font-bold text-[#F2F0F4]">
-                {t.featuredCertName}
-              </h3>
-              <p className="text-sm sm:text-base text-[#6F7398] leading-relaxed">
-                {t.featuredCertDesc}
-              </p>
-              <div className="flex items-center gap-4 pt-2">
-                <span className="text-xs font-semibold text-[#F2F0F4]">Issuer: {t.featuredCertOrg}</span>
-                <span className="text-xs text-[#373E57]">·</span>
-                <span className="text-xs text-[#6F7398]">Verified Credential</span>
-              </div>
-            </div>
-            <div className="lg:col-span-4 flex justify-lg-end">
-              <button
-                onClick={() => alert("Redirecting to official Microsoft Credential verification portal.")}
-                className="w-full sm:w-auto px-7 py-4 rounded-xl bg-[#D1C7D7] hover:bg-white text-[#0F1218] font-semibold text-sm transition-all flex items-center justify-center gap-2 shadow-lg"
-              >
-                <span>Verify Credential</span>
-                <ExternalLink className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Verified Certifications Section */}
-      <section id="certifications" className="py-28 px-6">
-        <div className="max-w-7xl mx-auto">
-          
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-xs font-bold tracking-widest text-[#D1C7D7] uppercase">Accreditation</span>
-            <h2 className="text-3xl sm:text-5xl font-serif-display font-bold text-[#F2F0F4] mt-3">
-              {t.certsTitle}
-            </h2>
-            <p className="text-sm text-[#6F7398] mt-3">{t.certsSubtitle}</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {t.certCategories.map((cat, idx) => (
-              <div key={idx} className="p-8 rounded-2xl bg-[#1E2332]/60 border border-[#373E57] hover:border-[#6F7398] transition-all shadow-lg">
-                <h3 className="text-xl font-semibold text-[#F2F0F4] mb-6 pb-4 border-b border-[#373E57]/40 flex items-center gap-3">
-                  <Award className="w-5 h-5 text-[#D1C7D7]" />
-                  <span>{cat.name}</span>
-                </h3>
-                <div className="space-y-6">
-                  {cat.items.map((item, i) => (
-                    <div key={i} className="flex items-start justify-between gap-4 group">
-                      <div>
-                        <h4 className="text-base font-semibold text-[#F2F0F4] group-hover:text-[#D1C7D7] transition-colors">
-                          {item.title}
-                        </h4>
-                        <p className="text-xs text-[#6F7398] mt-1 font-medium">
-                          {item.issuer} <span aria-hidden="true">·</span> {item.date}
-                        </p>
-                      </div>
-                      <button
-                        onClick={() => setSelectedCert(item)}
-                        className="px-3.5 py-1.5 rounded-lg bg-[#373E57]/40 hover:bg-[#373E57] text-xs font-medium text-[#D1C7D7] hover:text-white transition-all whitespace-nowrap shrink-0 shadow-sm"
-                      >
-                        Verify
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-
-        </div>
-      </section>
-
-      {/* Experience & Education Section */}
-      <section id="experience" className="py-28 px-6 bg-[#1E2332]/40 border-t border-b border-[#373E57]/30">
-        <div className="max-w-7xl mx-auto">
-          
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-xs font-bold tracking-widest text-[#D1C7D7] uppercase">Career & Academic Path</span>
-            <h2 className="text-3xl sm:text-5xl font-serif-display font-bold text-[#F2F0F4] mt-3">
-              {t.experienceTitle}
-            </h2>
-            <p className="text-sm text-[#6F7398] mt-3">{t.experienceSubtitle}</p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            
-            {/* Experience Column */}
-            <div className="space-y-8">
-              <h3 className="text-xl font-semibold text-[#F2F0F4] flex items-center gap-2.5 mb-6">
-                <Briefcase className="w-5 h-5 text-[#D1C7D7]" />
-                <span>Professional Experience</span>
-              </h3>
-              {t.experienceItems.map((exp, idx) => (
-                <div key={idx} className="p-7 rounded-2xl bg-[#1E2332] border border-[#373E57] relative pl-8 shadow-lg">
-                  <div className="absolute top-8 left-3 w-2 h-2 rounded-full bg-[#D1C7D7]" />
-                  <span className="text-xs font-semibold text-[#D1C7D7] px-3 py-1 rounded-lg bg-[#0F1218] border border-[#373E57] inline-block mb-3">
-                    {exp.period}
-                  </span>
-                  <h4 className="text-lg font-bold text-[#F2F0F4] mb-1">{exp.role}</h4>
-                  <p className="text-sm font-medium text-[#6F7398] mb-3">{exp.company}</p>
-                  <p className="text-sm text-[#6F7398] leading-relaxed">{exp.desc}</p>
-                </div>
-              ))}
+                <rect x="2" y="2.5" width="12" height="11" rx="2" stroke="currentColor" strokeWidth="1.4" />
+                <path d="M2 6.5H14M6.5 6.5V13.5" stroke="currentColor" strokeWidth="1.3" />
+              </svg>
+              <span>{t.techBadges[1]}</span>
             </div>
 
-            {/* Education Column */}
-            <div className="space-y-8">
-              <h3 className="text-xl font-semibold text-[#F2F0F4] flex items-center gap-2.5 mb-6">
-                <GraduationCap className="w-5 h-5 text-[#D1C7D7]" />
-                <span>Education</span>
-              </h3>
-              {t.educationItems.map((edu, idx) => (
-                <div key={idx} className="p-7 rounded-2xl bg-[#1E2332] border border-[#373E57] relative pl-8 shadow-lg">
-                  <div className="absolute top-8 left-3 w-2 h-2 rounded-full bg-[#D1C7D7]" />
-                  <span className="text-xs font-semibold text-[#D1C7D7] px-3 py-1 rounded-lg bg-[#0F1218] border border-[#373E57] inline-block mb-3">
-                    {edu.period}
-                  </span>
-                  <h4 className="text-lg font-bold text-[#F2F0F4] mb-1">{edu.degree}</h4>
-                  <p className="text-sm font-medium text-[#6F7398] mb-3">{edu.institution}</p>
-                  <p className="text-sm text-[#6F7398] leading-relaxed">{edu.desc}</p>
-                </div>
-              ))}
+            {/* 3. SQL — Middle Right */}
+            <div className="absolute top-1/2 -translate-y-1/2 right-0 sm:-right-3 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full bg-[#1E2332]/90 border border-[#373E57] hover:border-[#D1C7D7]/55 text-[11px] sm:text-xs font-semibold text-[#F2F0F4] shadow-[0_8px_20px_rgba(0,0,0,0.45)] backdrop-blur-md animate-badge-3 flex items-center gap-2 z-20 transition-colors duration-200">
+              <Database className="w-3.5 h-3.5 text-[#D1C7D7] shrink-0" aria-hidden="true" />
+              <span>{t.techBadges[4]}</span>
+            </div>
+
+            {/* 4. AI / ML — Bottom Left */}
+            <div className="absolute bottom-14 left-0 sm:bottom-16 sm:-left-1 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full bg-[#1E2332]/90 border border-[#373E57] hover:border-[#D1C7D7]/55 text-[11px] sm:text-xs font-semibold text-[#F2F0F4] shadow-[0_8px_20px_rgba(0,0,0,0.45)] backdrop-blur-md animate-badge-2 flex items-center gap-2 z-20 transition-colors duration-200">
+              <Cpu className="w-3.5 h-3.5 text-[#D1C7D7] shrink-0" aria-hidden="true" />
+              <span>{t.techBadges[2]}</span>
+            </div>
+
+            {/* 5. Python — Bottom Right */}
+            <div className="absolute bottom-3 right-2 sm:bottom-5 sm:right-3 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full bg-[#1E2332]/90 border border-[#373E57] hover:border-[#D1C7D7]/55 text-[11px] sm:text-xs font-semibold text-[#F2F0F4] shadow-[0_8px_20px_rgba(0,0,0,0.45)] backdrop-blur-md animate-badge-1 flex items-center gap-2 z-20 transition-colors duration-200">
+              <Code className="w-3.5 h-3.5 text-[#D1C7D7] shrink-0" aria-hidden="true" />
+              <span>{t.techBadges[3]}</span>
             </div>
 
           </div>
@@ -920,151 +768,29 @@ export default function App() {
         </div>
       </section>
 
-      {/* Project Demo Reel / Showcase Section */}
-      <section className="py-28 px-6">
-        <div className="max-w-7xl mx-auto">
-          
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-xs font-bold tracking-widest text-[#D1C7D7] uppercase">Visual Reel</span>
-            <h2 className="text-3xl sm:text-5xl font-serif-display font-bold text-[#F2F0F4] mt-3">
-              {t.demoTitle}
-            </h2>
-            <p className="text-sm text-[#6F7398] mt-3">{t.demoSubtitle}</p>
-          </div>
+      {/* About Me Section — Reconstructed Editorial & Story Composition */}
+      <AboutSection lang={lang} />
 
-          <div className="relative aspect-video rounded-3xl overflow-hidden border border-[#373E57] bg-[#1E2332] shadow-2xl group">
-            <img
-              src="/src/assets/images/project_techuni_hub_1795006684119.jpg"
-              alt="Demo Reel Preview"
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-              referrerPolicy="no-referrer"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0F1218] via-[#0F1218]/40 to-transparent flex items-center justify-center">
-              <button
-                onClick={() => setSelectedProject(t.projects[0])}
-                className="w-20 h-20 rounded-full bg-[#D1C7D7]/95 hover:bg-white text-[#0F1218] flex items-center justify-center shadow-2xl transition-all transform hover:scale-110"
-                title="Launch Interactive Showcase"
-              >
-                <Sparkles className="w-8 h-8" />
-              </button>
-            </div>
-            <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between">
-              <div>
-                <p className="text-xs font-semibold text-[#D1C7D7]">Interactive Intelligence Dashboard</p>
-                <h3 className="text-xl font-serif-display font-bold text-[#F2F0F4]">TechUni Intelligence Hub Preview</h3>
-              </div>
-              <span className="px-3.5 py-1.5 rounded-xl bg-[#0F1218]/85 backdrop-blur-md border border-[#373E57] text-xs text-[#F2F0F4]">
-                Power BI & Python
-              </span>
-            </div>
-          </div>
+      {/* Core Strengths Section — Reconstructed Connected Three-Step System */}
+      <CoreStrengthsSection lang={lang} />
 
-        </div>
-      </section>
+      {/* Selected Data & AI Projects + Frontend & Digital Experiences (01–10) */}
+      <ProjectsSection lang={lang} />
 
-      {/* Contact & Footer Section */}
-      <section id="contact" className="py-28 px-6 bg-[#1E2332]/60 border-t border-[#373E57]">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12">
-          
-          <div className="lg:col-span-5 space-y-6">
-            <span className="text-xs font-bold tracking-widest text-[#D1C7D7] uppercase">Get In Touch</span>
-            <h2 className="text-3xl sm:text-5xl font-serif-display font-bold text-[#F2F0F4]">
-              {t.contactTitle}
-            </h2>
-            <p className="text-sm text-[#6F7398] leading-relaxed">
-              {t.contactSubtitle}
-            </p>
+      {/* Skills & Technical Stack Section — Reconstructed Four-Stage Technical Pipeline */}
+      <SkillsSection lang={lang} />
 
-            <div className="space-y-4 pt-4">
-              <div className="flex items-center gap-4 text-sm text-[#F2F0F4]">
-                <div className="w-11 h-11 rounded-xl bg-[#1E2332] border border-[#373E57] flex items-center justify-center text-[#D1C7D7] shadow-sm">
-                  <Mail className="w-4 h-4" />
-                </div>
-                <span>fatma.abdel-fattah@data-analytics.com</span>
-              </div>
-              <div className="flex items-center gap-4 text-sm text-[#F2F0F4]">
-                <div className="w-11 h-11 rounded-xl bg-[#1E2332] border border-[#373E57] flex items-center justify-center text-[#D1C7D7] shadow-sm">
-                  <MapPin className="w-4 h-4" />
-                </div>
-                <span>Available Worldwide (Remote & On-Site)</span>
-              </div>
-            </div>
+      {/* Certifications & Credentials Section — Reconstructed Reference Layout */}
+      <CertificationsSection lang={lang} />
 
-            <div className="flex items-center gap-4 pt-4">
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="w-11 h-11 rounded-xl bg-[#1E2332] border border-[#373E57] flex items-center justify-center text-[#D1C7D7] hover:text-white hover:border-[#6F7398] transition-all shadow-sm" aria-label="LinkedIn Profile">
-                <Linkedin className="w-5 h-5" />
-              </a>
-              <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="w-11 h-11 rounded-xl bg-[#1E2332] border border-[#373E57] flex items-center justify-center text-[#D1C7D7] hover:text-white hover:border-[#6F7398] transition-all shadow-sm" aria-label="GitHub Profile">
-                <Github className="w-5 h-5" />
-              </a>
-              <a href="mailto:fatma@example.com" className="w-11 h-11 rounded-xl bg-[#1E2332] border border-[#373E57] flex items-center justify-center text-[#D1C7D7] hover:text-white hover:border-[#6F7398] transition-all shadow-sm" aria-label="Email Contact">
-                <Mail className="w-5 h-5" />
-              </a>
-            </div>
-          </div>
+      {/* Experience & Education Section — Reconstructed Six-Milestone Career Timeline */}
+      <ExperienceSection lang={lang} />
 
-          <div className="lg:col-span-7">
-            <form onSubmit={handleContactSubmit} className="p-8 sm:p-10 rounded-3xl bg-[#0F1218] border border-[#373E57] shadow-2xl space-y-6">
-              {formSubmitted ? (
-                <div className="p-6 rounded-2xl bg-[#1E2332] border border-emerald-500/40 text-emerald-300 text-sm text-center">
-                  {t.successMessage}
-                </div>
-              ) : (
-                <>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-xs font-semibold text-[#6F7398] mb-2">{t.formName}</label>
-                      <input
-                        type="text"
-                        required
-                        value={contactForm.name}
-                        onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
-                        className="w-full px-4.5 py-3.5 rounded-xl bg-[#1E2332] border border-[#373E57] text-[#F2F0F4] text-sm focus:outline-none focus:border-[#D1C7D7] transition-colors"
-                        placeholder="John Doe"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-[#6F7398] mb-2">{t.formEmail}</label>
-                      <input
-                        type="email"
-                        required
-                        value={contactForm.email}
-                        onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
-                        className="w-full px-4.5 py-3.5 rounded-xl bg-[#1E2332] border border-[#373E57] text-[#F2F0F4] text-sm focus:outline-none focus:border-[#D1C7D7] transition-colors"
-                        placeholder="john@example.com"
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-[#6F7398] mb-2">{t.formMessage}</label>
-                    <textarea
-                      required
-                      rows={5}
-                      value={contactForm.message}
-                      onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
-                      className="w-full px-4.5 py-3.5 rounded-xl bg-[#1E2332] border border-[#373E57] text-[#F2F0F4] text-sm focus:outline-none focus:border-[#D1C7D7] transition-colors"
-                      placeholder="Write your message here..."
-                    />
-                  </div>
-                  <button
-                    type="submit"
-                    className="w-full py-4 rounded-xl bg-[#D1C7D7] hover:bg-white text-[#0F1218] font-semibold text-sm transition-all flex items-center justify-center gap-2 shadow-xl shadow-[#D1C7D7]/10"
-                  >
-                    <span>{t.sendButton}</span>
-                    <Send className="w-4 h-4" />
-                  </button>
-                </>
-              )}
-            </form>
-          </div>
+      {/* Contact & Footer Section — Reconstructed Four-Card & Horizontal Message Panel */}
+      <ContactSection lang={lang} />
 
-        </div>
-
-        {/* Footer */}
-        <div className="max-w-7xl mx-auto mt-20 pt-8 border-t border-[#373E57]/40 text-center text-xs text-[#6F7398]">
-          <p>{t.footerCopy}</p>
-        </div>
-      </section>
+      {/* Global Floating AI Portfolio Assistant — Mounted once at root via Portal */}
+      <FloatingAIAssistant lang={lang} />
 
       {/* Project Detail Modal */}
       {selectedProject && (
@@ -1090,9 +816,9 @@ export default function App() {
                 <span className="text-xs font-semibold text-[#D1C7D7] px-3 py-1 rounded bg-[#0F1218] border border-[#373E57] inline-block mb-3">
                   {selectedProject.category}
                 </span>
-                <h3 className="text-2xl font-serif-display font-bold text-[#F2F0F4]">{selectedProject.title}</h3>
+                <h3 className={`text-2xl font-bold text-[#F2F0F4] ${lang === 'AR' ? 'font-arabic' : 'font-cambria'}`}>{selectedProject.title}</h3>
               </div>
-              <p className="text-sm sm:text-base text-[#6F7398] leading-relaxed">
+              <p className="text-sm sm:text-base text-[#CDD0D9] leading-relaxed">
                 {selectedProject.desc}
               </p>
               <div className="p-4 rounded-xl bg-[#0F1218] border border-[#373E57]">
@@ -1142,12 +868,12 @@ export default function App() {
             </div>
             <div>
               <span className="text-xs font-semibold text-[#D1C7D7]">Verified Credential</span>
-              <h3 className="text-xl font-serif-display font-bold text-[#F2F0F4] mt-1">{selectedCert.title}</h3>
+              <h3 className={`text-xl font-bold text-[#F2F0F4] mt-1 ${lang === 'AR' ? 'font-arabic' : 'font-cambria'}`}>{selectedCert.title}</h3>
             </div>
             <div className="p-4 rounded-xl bg-[#0F1218] border border-[#373E57] space-y-2">
-              <p className="text-xs text-[#6F7398]">Issuer: <span className="text-[#F2F0F4] font-medium">{selectedCert.issuer}</span></p>
-              <p className="text-xs text-[#6F7398]">Issue Date: <span className="text-[#F2F0F4] font-medium">{selectedCert.date}</span></p>
-              <p className="text-xs text-emerald-400 font-medium">Status: Verified & Authentic</p>
+              <p className="text-xs text-[#CDD0D9]">Issuer: <span className="text-[#F2F0F4] font-medium">{selectedCert.issuer}</span></p>
+              <p className="text-xs text-[#CDD0D9]">Issue Date: <span className="text-[#F2F0F4] font-medium">{selectedCert.date}</span></p>
+              <p className="text-xs text-[#D1C7D7] font-semibold">Status: Verified & Authentic</p>
             </div>
             <div className="pt-2 flex justify-end gap-4">
               <button
